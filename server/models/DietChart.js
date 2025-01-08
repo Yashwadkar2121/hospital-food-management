@@ -17,6 +17,11 @@ const dietChartSchema = new mongoose.Schema({
         default: "", // Default to an empty string if no instructions are provided
         trim: true,
       },
+      assignedPantryStaff: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
+        required: true, // Ensure pantry staff is assigned
+      },
     },
     evening: {
       items: {
@@ -28,6 +33,11 @@ const dietChartSchema = new mongoose.Schema({
         default: "", // Default to an empty string if no instructions are provided
         trim: true,
       },
+      assignedPantryStaff: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
+        required: true, // Ensure pantry staff is assigned
+      },
     },
     night: {
       items: {
@@ -38,6 +48,11 @@ const dietChartSchema = new mongoose.Schema({
         type: String,
         default: "", // Default to an empty string if no instructions are provided
         trim: true,
+      },
+      assignedPantryStaff: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
+        required: true, // Ensure pantry staff is assigned
       },
     },
   },
