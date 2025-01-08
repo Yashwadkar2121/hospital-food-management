@@ -4,55 +4,55 @@ const dietChartSchema = new mongoose.Schema({
   patientId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Patient",
-    required: true, // Ensure that the patient ID is always provided
+    required: true,
   },
   meals: {
     morning: {
       items: {
         type: [String],
-        default: [], // Default to an empty array if no items are provided
+        default: [],
       },
       instructions: {
         type: String,
-        default: "", // Default to an empty string if no instructions are provided
+        default: "",
         trim: true,
       },
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
-        required: true, // Ensure pantry staff is assigned
+        ref: "PantryStaff",
+        required: false, // Updated to allow null assignment at creation
       },
     },
     evening: {
       items: {
         type: [String],
-        default: [], // Default to an empty array if no items are provided
+        default: [],
       },
       instructions: {
         type: String,
-        default: "", // Default to an empty string if no instructions are provided
+        default: "",
         trim: true,
       },
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
-        required: true, // Ensure pantry staff is assigned
+        ref: "PantryStaff",
+        required: false, // Updated to allow null assignment at creation
       },
     },
     night: {
       items: {
         type: [String],
-        default: [], // Default to an empty array if no items are provided
+        default: [],
       },
       instructions: {
         type: String,
-        default: "", // Default to an empty string if no instructions are provided
+        default: "",
         trim: true,
       },
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "PantryStaff", // Reference to the 'PantryStaff' schema
-        required: true, // Ensure pantry staff is assigned
+        ref: "PantryStaff",
+        required: false, // Updated to allow null assignment at creation
       },
     },
   },
