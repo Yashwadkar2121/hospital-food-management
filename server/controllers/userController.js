@@ -7,6 +7,11 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser)
+      return res.status(400).json({ message: "Email already in use!" });
+
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -22,7 +27,7 @@ exports.register = async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -49,29 +54,29 @@ exports.login = async (req, res) => {
 
     res.status(200).json({ token, role: user.role });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Role-specific pages
+// Role-specific dashboard
 exports.getDashboard = async (req, res) => {
   try {
-    const role = req.user.role;
+    const { role } = req.user;
 
     switch (role) {
       case "admin":
         return res.status(200).json({ page: "Admin Dashboard" });
 
-      case "pantryStaff":
+      case "pantry":
         return res.status(200).json({ page: "Pantry Staff Dashboard" });
 
-      case "deliveryPersonnel":
+      case "delivery":
         return res.status(200).json({ page: "Delivery Personnel Dashboard" });
 
       default:
         return res.status(403).json({ message: "Access Denied!" });
     }
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
