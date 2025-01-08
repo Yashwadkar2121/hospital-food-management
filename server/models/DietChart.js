@@ -8,51 +8,27 @@ const dietChartSchema = new mongoose.Schema({
   },
   meals: {
     morning: {
-      items: {
-        type: [String],
-        default: [],
-      },
-      instructions: {
-        type: String,
-        default: "",
-        trim: true,
-      },
+      items: [String],
+      instructions: String,
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
-        required: false, // Updated to allow null assignment at creation
       },
     },
     evening: {
-      items: {
-        type: [String],
-        default: [],
-      },
-      instructions: {
-        type: String,
-        default: "",
-        trim: true,
-      },
+      items: [String],
+      instructions: String,
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
-        required: false, // Updated to allow null assignment at creation
       },
     },
     night: {
-      items: {
-        type: [String],
-        default: [],
-      },
-      instructions: {
-        type: String,
-        default: "",
-        trim: true,
-      },
+      items: [String],
+      instructions: String,
       assignedPantryStaff: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
-        required: false, // Updated to allow null assignment at creation
       },
     },
   },

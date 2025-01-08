@@ -7,6 +7,7 @@ import DashboardAdmin from "./page/Admin/Dashboard";
 import DashboardPantryStaff from "./page/PantryStaff/Dashboard";
 import DashboardDeliveryP from "./page/DeliveryPersonnel/Dashboard";
 import PatientForm from "./page/Admin/PatientForm";
+import DietFrom from "./page/Admin/DietFrom";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<DashboardAdmin />} />
           <Route path="/addpatient" element={<PatientForm />} />
+          <Route path="/adddiet/:patientId" element={<DietFrom />} />
           <Route path="/pentrystaff" element={<DashboardPantryStaff />} />
           <Route path="/delivery" element={<DashboardDeliveryP />} />
         </Routes>
