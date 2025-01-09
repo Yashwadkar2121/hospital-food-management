@@ -179,13 +179,13 @@ const Dashboard = () => {
                 Allergies
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
-                Room Number
+                Room No.
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
-                Bed Number
+                Bed No.
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
-                Floor Number
+                Floor No.
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
                 Age
@@ -194,10 +194,10 @@ const Dashboard = () => {
                 Gender
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
-                Contact Info
+                Contact
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
-                Emergency Contact
+                Emergency No.
               </th>
               <th className="border px-4 py-2 text-center whitespace-nowrap">
                 Morning Meal
@@ -246,7 +246,7 @@ const Dashboard = () => {
                     : "Meals not added"}
                 </td>
 
-                <td className="border px-4 py-2">
+                <td className="border px-4 py-2 space-x-2">
                   <button className="p-2 bg-gray-500 rounded text-blue-50">
                     <Link to={`/adddiet/${patient._id}`}>Add Diet</Link>
                   </button>
