@@ -35,7 +35,7 @@ exports.getPatientsWithMeals = async (req, res) => {
 // Update Meal Status
 exports.updateMealStatus = async (req, res) => {
   try {
-    const { dietChartId, mealTime, status } = req.body; // mealTime = 'morning', 'evening', 'night'
+    const { dietChartId, mealTime, status } = req.body;
     const dietChart = await DietChart.findById(dietChartId);
 
     if (!dietChart) {
@@ -44,19 +44,36 @@ exports.updateMealStatus = async (req, res) => {
         .json({ success: false, message: "Diet chart not found" });
     }
 
-    if (dietChart.meals[mealTime]) {
-      dietChart.meals[mealTime].status = status; // Set the new status
-      await dietChart.save();
-      res.status(200).json({
+    const meal = dietChart.meals[mealTime];
+    if (!meal) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid meal time provided" });
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+    const lastUpdated = meal.lastUpdated
+      ? meal.lastUpdated.toISOString().split("T")[0]
+      : null;
+
+    if (lastUpdated === today) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Meal status already updated today" });
+    }
+
+    // Update meal status
+    meal.status = status;
+    meal.lastUpdated = new Date();
+    await dietChart.save();
+
+    res
+      .status(200)
+      .json({
         success: true,
         message: "Meal status updated successfully",
         dietChart,
       });
-    } else {
-      res
-        .status(400)
-        .json({ success: false, message: "Invalid meal time provided" });
-    }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

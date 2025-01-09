@@ -18,7 +18,8 @@ const dietChartSchema = new mongoose.Schema({
         type: String,
         enum: ["Ready", "Pending", "N/A"],
         default: "Pending",
-      }, // Add status field
+      },
+      lastUpdated: Date,
     },
     evening: {
       items: [String],
@@ -31,7 +32,8 @@ const dietChartSchema = new mongoose.Schema({
         type: String,
         enum: ["Ready", "Pending", "N/A"],
         default: "Pending",
-      }, // Add status field
+      },
+      lastUpdated: Date,
     },
     night: {
       items: [String],
@@ -44,7 +46,8 @@ const dietChartSchema = new mongoose.Schema({
         type: String,
         enum: ["Ready", "Pending", "N/A"],
         default: "Pending",
-      }, // Add status field
+      },
+      lastUpdated: Date,
     },
   },
 });

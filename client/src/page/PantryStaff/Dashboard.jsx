@@ -4,10 +4,23 @@ import axios from "axios";
 const Dashboard = () => {
   const [dietCharts, setDietCharts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clickedButtons, setClickedButtons] = useState({});
+  const [currentDay, setCurrentDay] = useState(new Date().toDateString());
 
   useEffect(() => {
     fetchDietCharts();
-  }, []);
+
+    // Check for day change and reset clickedButtons
+    const interval = setInterval(() => {
+      const newDay = new Date().toDateString();
+      if (newDay !== currentDay) {
+        setClickedButtons({});
+        setCurrentDay(newDay);
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [currentDay]);
 
   const fetchDietCharts = async () => {
     try {
@@ -23,19 +36,36 @@ const Dashboard = () => {
   };
 
   const updateMealStatus = async (dietChartId, mealTime, newStatus) => {
+    const buttonKey = `${dietChartId}-${mealTime}`;
+
+    // Prevent multiple clicks for the same meal within a day
+    if (clickedButtons[buttonKey]) {
+      alert("You can only mark this meal as ready once per day.");
+      return;
+    }
+
     try {
       await axios.post("http://localhost:5000/api/pantry/updateMealStatus", {
         dietChartId,
         mealTime,
         status: newStatus,
       });
+
+      // Update the clickedButtons state to mark this button as clicked
+      setClickedButtons((prev) => ({
+        ...prev,
+        [buttonKey]: true,
+      }));
+
       fetchDietCharts(); // Refresh data
     } catch (error) {
       console.error("Error updating meal status:", error);
     }
   };
 
-  if (loading) return <p className="text-center text-gray-500">Loading...</p>;
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading...</p>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -64,8 +94,6 @@ const Dashboard = () => {
                 <p className="text-sm text-gray-500 mt-2">
                   Instructions: {chart.meals[mealTime]?.instructions || "N/A"}
                 </p>
-
-                {/* Displaying the status */}
                 <p className="text-sm mt-2">
                   <strong>Status:</strong>{" "}
                   <span
@@ -80,13 +108,23 @@ const Dashboard = () => {
                     {chart.meals[mealTime]?.status || "N/A"}
                   </span>
                 </p>
-
-                {/* Button to update status */}
                 <button
                   onClick={() => updateMealStatus(chart._id, mealTime, "Ready")}
-                  className="mt-3 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+                  disabled={
+                    clickedButtons[`${chart._id}-${mealTime}`] ||
+                    chart.meals[mealTime]?.status === "Ready"
+                  }
+                  className={`mt-3 py-2 px-4 rounded-lg transition ${
+                    clickedButtons[`${chart._id}-${mealTime}`] ||
+                    chart.meals[mealTime]?.status === "Ready"
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
                 >
-                  Mark as Ready
+                  {clickedButtons[`${chart._id}-${mealTime}`] ||
+                  chart.meals[mealTime]?.status === "Ready"
+                    ? "Already Marked"
+                    : "Mark as Ready"}
                 </button>
               </div>
             ))}
