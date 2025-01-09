@@ -42,7 +42,7 @@ const Login = () => {
       } else if (role === "delivery") {
         navigate("/delivery");
       } else if (role === "pantry") {
-        navigate("/pantrystaff");
+        navigate("/pentrystaff");
       } else {
         setError("Invalid role. Contact your administrator.");
       }
