@@ -14,6 +14,11 @@ const dietChartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
       },
+      status: {
+        type: String,
+        enum: ["Ready", "Pending", "N/A"],
+        default: "Pending",
+      }, // Add status field
     },
     evening: {
       items: [String],
@@ -22,6 +27,11 @@ const dietChartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
       },
+      status: {
+        type: String,
+        enum: ["Ready", "Pending", "N/A"],
+        default: "Pending",
+      }, // Add status field
     },
     night: {
       items: [String],
@@ -30,6 +40,11 @@ const dietChartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "PantryStaff",
       },
+      status: {
+        type: String,
+        enum: ["Ready", "Pending", "N/A"],
+        default: "Pending",
+      }, // Add status field
     },
   },
 });

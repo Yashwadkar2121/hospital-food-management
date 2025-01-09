@@ -24,7 +24,6 @@ exports.createDietChart = async (req, res) => {
   }
 };
 
-// dietChartController.js
 exports.getMealsByPatientId = async (req, res) => {
   try {
     const { patientId } = req.params;
